@@ -17,7 +17,7 @@ const CONFIG = {
   paddleW: 120,
   paddleH: 14,
   paddleYPad: 26,
-  paddleSpeed: 0.18, // lerp speed for pointer following
+  paddleSpeed: 0.18,
   // Ball
   ballR: 8,
   ballSpeed: 420,
@@ -221,7 +221,6 @@ export default function MoneyBrickBreaker() {
 
   useEffect(() => {
     resetWorld(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Pointer controls
@@ -285,7 +284,6 @@ export default function MoneyBrickBreaker() {
       window.removeEventListener("keydown", onKey);
       el.removeEventListener("pointerdown", onClick);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running, paused]);
 
   // Canvas sizing for DPR
@@ -319,7 +317,6 @@ export default function MoneyBrickBreaker() {
 
     rafRef.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(rafRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running, paused]);
 
   const spawnBreak = (w, brick, hitVx, hitVy) => {
@@ -402,11 +399,10 @@ export default function MoneyBrickBreaker() {
         b.y = p.y - b.r - 0.5;
         // Angle based on hit position
         const rel = (b.x - (p.x + p.w / 2)) / (p.w / 2);
-        const angle = rel * (Math.PI * 0.36); // +/- ~65deg
+        const angle = rel * (Math.PI * 0.36); 
         const speed = Math.hypot(b.vx, b.vy);
         b.vx = Math.sin(angle) * speed;
         b.vy = -Math.cos(angle) * speed;
-        // slight boost
         const boost = 1.01;
         b.vx *= boost;
         b.vy *= boost;
@@ -420,7 +416,6 @@ export default function MoneyBrickBreaker() {
         const dx = b.x - cx;
         const dy = b.y - cy;
         if (dx * dx + dy * dy <= b.r * b.r) {
-          // Reflect: pick axis of greatest penetration approximation
           const midX = br.x + br.w / 2;
           const midY = br.y + br.h / 2;
           const ox = (b.x - midX) / (br.w / 2);
@@ -481,7 +476,6 @@ export default function MoneyBrickBreaker() {
       bill.t += dt;
       bill.pop = Math.min(1, bill.pop + dt * 5);
 
-      // graceful fall: downward + gentle sideways drift + sway
       const swayX = sway(bill.t, bill.seed) * CONFIG.driftSpeed;
       bill.x += (bill.vx + swayX) * dt;
       bill.y += (CONFIG.fallSpeed + bill.vy) * dt;
@@ -553,7 +547,6 @@ export default function MoneyBrickBreaker() {
   };
 
   const draw = (ctx, w, tSec) => {
-    // HiDPI
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     // Shake
